@@ -1,4 +1,4 @@
-# n8n Blog Automation
+# n8n Blog Automation 🚀
 
 This project is an end-to-end blog automation system built using **n8n**, designed to automatically generate and publish blog posts from multiple RSS sources using AI-assisted workflows.
 
@@ -102,3 +102,13 @@ This automation is suitable for:
 - SEO-driven blog generation
 - Marketing teams
 - Experimenting with AI-powered publishing workflows
+
+## Note
+
+If you are running n8n **locally**, please replace the **RSS Feed Trigger** nodes with a **Manual Trigger** node and standard **RSS Read** nodes.
+
+The RSS Feed Trigger nodes used in this workflow require **n8n cloud/online execution** and may not run as expected in a local n8n setup.
+
+
+<img width="1352" height="623" alt="n8n-blog-workflow" src="https://github.com/user-attachments/assets/87366a5c-b319-4dee-bcce-57fae4d90ad3" />
+
