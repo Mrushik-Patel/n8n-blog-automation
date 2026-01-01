@@ -1,0 +1,847 @@
+{
+    "name": "GEMINI WORKFLOW",
+    "nodes": [
+        {
+            "parameters": {
+                "model": "llama-3.3-70b-versatile",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+            "typeVersion": 1,
+            "position": [
+                1152,
+                832
+            ],
+            "id": "65d3a96f-2cd3-4477-8ff8-3c6548d4a1cb",
+            "name": "Groq Chat Model",
+            "credentials": {
+                "groqApi": {
+                    "id": "YOUR_GROQ_CREDENTIAL_ID",
+                    "name": "Groq account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "model": "llama-3.3-70b-versatile",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+            "typeVersion": 1,
+            "position": [
+                1504,
+                832
+            ],
+            "id": "2d8102d9-1581-4c8d-a05c-33701ca7af02",
+            "name": "Groq Chat Model1",
+            "credentials": {
+                "groqApi": {
+                    "id": "YOUR_GROQ_CREDENTIAL_ID",
+                    "name": "Groq account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=\"Act as a world-class technology journalist for Wired or TechCrunch. Based on the topic from '{{ $node[\"Limit1\"].json.title }}' and these keywords '{{ $node[\"KEYWORD\"].json.text }}', create one powerful, SEO-optimized title.\n\nSTRICT NEGATIVE CONSTRAINTS (NO ROBOTIC WORDS): DO NOT use: Unlock, Unlocking, Unleash, Harness, Delve, Discover, Dive, Transform, Revolutionize, or 'The Power of...'\n\nREQUIRED FORMULAS (CHOOSE THE MOST PROVOCATIVE):\n\nThe Question: 'Is [Keyword] Killing [Industry]? The Data Breakdown'\n\nThe Reality: 'Why [Keyword] Won't Solve Your [Problem] Just Yet'\n\nThe How-To: 'How We Integrated [Keyword] to Fix [Problem] in [Days]'\n\nThe List: '5 Critical [Keyword] Trends Tech Leaders are Ignoring'\n\nEDITORIAL GUIDELINES:\n\nHuman Tone: Use direct, plain English that sounds like a professional conversation, not a marketing brochure.\n\nLength: Aim for 7 to 10 words (60–70 characters) for maximum SEO impact.\n\nKeyword Placement: Place the primary keyword near the beginning of the title whenever possible.\n\nOutput Requirements: Output ONLY the plain text title. No quotes, no intro text, no labels.\"",
+                "batching": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.chainLlm",
+            "typeVersion": 1.7,
+            "position": [
+                1424,
+                608
+            ],
+            "id": "e402472e-d304-4283-8615-45839d860d5a",
+            "name": "SEO TITLE"
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=\"I have a trending AI topic:{{ $('Limit1').item.json.title }}.\nAct as an SEO Expert. Generate a list of the 7 most effective SEO keywords for this topic specifically for an audience interested in AI Agents and Machine Learning.\n\nOutput Format: Provide the keywords as a simple comma-separated list. Example: AI agents, autonomous workflows, machine learning model, [etc]\n\nDo not write anything else. No 'Here are your keywords'. Just the list.\"",
+                "batching": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.chainLlm",
+            "typeVersion": 1.7,
+            "position": [
+                1072,
+                608
+            ],
+            "id": "587b82bd-4bee-4465-9c21-fc958d97ae41",
+            "name": "KEYWORD"
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=\"Act as a professional AI Technology Blogger with 10 years of experience in Silicon Valley. Write a 2,000-word deep-dive article in HTML format.\n\nTITLE: {{ $node[\"SEO TITLE\"].json.text }} KEYWORDS: {{ $node[\"KEYWORD\"].json.text }}\n\nSTYLE & TONE (CRITICAL):\n\nHuman Personality: Use first-person perspectives ('I've seen,' 'In my experience'). Use 'we' to build a connection with the reader.\n\nNo 'AI Fluff': Avoid generic phrases like 'In the ever-evolving landscape' or 'In conclusion.' Start with a bold, controversial, or highly technical statement.\n\nFormatting: Include the specific CSS/Google Fonts provided below. Use <h2> for main sections and <h3> for detailed breakdowns.\n\nValue Density: Don't just explain 'what' a technology is; explain 'why' it matters for the future and 'how' it actually works under the hood.\n\nHTML HEADERS:\n\n<link href='https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Lato:wght@400&display=swap' rel='stylesheet'> <style>h1, h2, h3 { font-family: 'Poppins', sans-serif !important; color: #1a1a1a; } body, p, li { font-family: 'Lato', sans-serif !important; line-height: 1.8; color: #333; } blockquote { border-left: 5px solid #007bff; padding-left: 15px; font-style: italic; }</style>\n\nSTRUCTURE:\n\nIntro: A punchy, 3-sentence hook.\n\nDeep Dive: 4 main sections using <h2>.\n\nComparison Table: Include an HTML table comparing two relevant AI concepts.\n\nExpert Summary: A 'Pro-Tip' section wrapped in a <blockquote> tag.\n\nFuture Outlook: A closing thought on where this tech goes in 2026.\n\nOutput ONLY the HTML code.\"",
+                "batching": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.chainLlm",
+            "typeVersion": 1.7,
+            "position": [
+                1776,
+                608
+            ],
+            "id": "751d0aaa-80fc-4059-94be-2d0242ac5244",
+            "name": "BLOG GENERATION"
+        },
+        {
+            "parameters": {
+                "model": "llama-3.3-70b-versatile",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+            "typeVersion": 1,
+            "position": [
+                1888,
+                832
+            ],
+            "id": "537ed82d-551b-43b4-b34b-51d759d57436",
+            "name": "Groq Chat Model2",
+            "credentials": {
+                "groqApi": {
+                    "id": "YOUR_GROQ_CREDENTIAL_ID",
+                    "name": "Groq account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "huggingFaceApi",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "Accept",
+                            "value": "image/png"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={ \"inputs\": \"A futuristic 3D tech concept: {{ $node['SEO TITLE'].json.text.replace(/[\"\\n\\r]/g, ' ') }}\" }",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "file"
+                        }
+                    }
+                }
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                2528,
+                608
+            ],
+            "id": "024f8941-9833-4429-b6f5-5ad6ea540028",
+            "name": "IMAGE GENERATION",
+            "credentials": {
+                "huggingFaceApi": {
+                    "id": "YOUR_HUGGINGFACE_CREDENTIAL_ID",
+                    "name": "HuggingFaceApi account 3"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.imgbb.com/1/upload?",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {}
+                    ]
+                },
+                "sendBody": true,
+                "contentType": "multipart-form-data",
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "value": "YOUR_IMGBB_API_KEY"
+                        },
+                        {
+                            "parameterType": "formBinaryData",
+                            "name": "image",
+                            "inputDataFieldName": "data"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                2736,
+                608
+            ],
+            "id": "fe03c78a-0d83-4b37-bd44-b04de8d71055",
+            "name": "IMAGE CONVERTING TO URL"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://www.googleapis.com/blogger/v3/blogs/YOUR_BLOG_ID/posts/",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "googleOAuth2Api",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"kind\": \"blogger#post\",\n  \"blog\": {\n    \"id\": \"YOUR_BLOG_ID\"\n  },\n  \"title\": {{ JSON.stringify($node[\"SEO TITLE\"].json.text.replace(/^[\"']|[\"']$/g, '').trim()) }},\n  \"labels\": {{ JSON.stringify($node[\"KEYWORD\"].json.text.split(',').map(s => s.trim())) }},\n  \"content\": {{ \n    JSON.stringify(\n      \"<link href='https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Lato:wght@400&display=swap' rel='stylesheet'>\" +\n      \"<style>h1,h2,h3{font-family:\\\"Poppins\\\",sans-serif !important; margin-top: 35px; margin-bottom: 15px;} p,li{font-family:\\\"Lato\\\",sans-serif !important; line-height: 2.1; margin-bottom: 25px; font-size: 17px;}</style>\" +\n      \"<div style='padding: 20px;'>\" +\n      \"<img src='\" + $node[\"IMAGE CONVERTING TO URL\"].json.data.url + \"' alt='\" + $node[\"SEO TITLE\"].json.text.replace(/'/g, \"\") + \"' style='width: 100%; border-radius: 12px; margin-bottom: 35px;'/>\" +\n      \"<div>\" + $node[\"BLOG GENERATION\"].json.text + \"</div></div>\"\n    ) \n  }}\n}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                2960,
+                608
+            ],
+            "id": "4901c97a-93de-4616-9dc0-44a1335b72aa",
+            "name": "POSTING TO BLOGGER",
+            "retryOnFail": false,
+            "maxTries": 2,
+            "waitBetweenTries": 2000,
+            "alwaysOutputData": false,
+            "credentials": {
+                "oAuth2Api": {
+                    "id": "YOUR_BLOGGER_CREDENTIAL_ID_2",
+                    "name": "Unnamed credential"
+                },
+                "googleOAuth2Api": {
+                    "id": "YOUR_BLOGGER_CREDENTIAL_ID_1",
+                    "name": "BLOGGER API"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "=\"Act as a high-conversion SEO copywriter. Based on the blog title '{{ $node[\"SEO TITLE\"].json.text }}' and the content, write one professional meta description.\n\nEDITORIAL STANDARDS:\n\nTone: Human, authoritative, and helpful. Avoid 'marketing hype' or AI fluff like 'unlock' or 'transform'.\n\nValue First: Immediately address the reader's problem or curiosity mentioned in the title.\n\nLength: You must stay between 140 and 155 characters. If it is shorter than 140, it looks incomplete; longer than 155, Google will cut it off.\n\nSTRUCTURE:\n\nThe Hook: Start with a bold claim or a direct answer to a technical question.\n\nThe Benefit: Explain exactly what the reader will learn (e.g., 'Discover why [Keyword] is failing...' or 'See the 2026 data on...').\n\nThe Call to Action (CTA): End with a soft but firm push to read more, like 'Get the full technical breakdown' or 'See how it affects your workflow'.\n\nOutput Requirements: Output ONLY the plain text description. No quotes, no intro text, no character counts.\"",
+                "batching": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.chainLlm",
+            "typeVersion": 1.7,
+            "position": [
+                2160,
+                608
+            ],
+            "id": "0a644d4c-f31c-4c38-8647-a316f5965cb5",
+            "name": "META DESCRIPTION"
+        },
+        {
+            "parameters": {
+                "model": "llama-3.3-70b-versatile",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+            "typeVersion": 1,
+            "position": [
+                2240,
+                832
+            ],
+            "id": "de1bca49-30b6-4c6b-a829-0a5b6a150c5a",
+            "name": "Groq Chat Model3",
+            "credentials": {
+                "groqApi": {
+                    "id": "YOUR_GROQ_CREDENTIAL_ID",
+                    "name": "Groq account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "numberInputs": 4
+            },
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                -256,
+                160
+            ],
+            "id": "8cd4f429-6596-4f36-82f2-b231d73f142e",
+            "name": "Merge"
+        },
+        {
+            "parameters": {
+                "pollTimes": {
+                    "item": [
+                        {
+                            "hour": 8,
+                            "minute": 30
+                        }
+                    ]
+                },
+                "feedUrl": "https://news.google.com/rss/search?q=artificial+intelligence+AI+machine+learning"
+            },
+            "type": "n8n-nodes-base.rssFeedReadTrigger",
+            "typeVersion": 1,
+            "position": [
+                -752,
+                -48
+            ],
+            "id": "e263b13f-3bfe-4f3a-8dab-fdcee9c03c08",
+            "name": "RSS Feed Trigger"
+        },
+        {
+            "parameters": {
+                "pollTimes": {
+                    "item": [
+                        {
+                            "hour": 16,
+                            "minute": 57
+                        }
+                    ]
+                },
+                "feedUrl": "https://openai.com/news/rss.xml"
+            },
+            "type": "n8n-nodes-base.rssFeedReadTrigger",
+            "typeVersion": 1,
+            "position": [
+                -752,
+                144
+            ],
+            "id": "5cfbd7c9-2324-465a-b8d4-dfe8e03b6ac2",
+            "name": "OPEN AI RSS"
+        },
+        {
+            "parameters": {
+                "pollTimes": {
+                    "item": [
+                        {
+                            "hour": 20,
+                            "minute": 30
+                        }
+                    ]
+                },
+                "feedUrl": "https://deepmind.google/blog/rss.xml"
+            },
+            "type": "n8n-nodes-base.rssFeedReadTrigger",
+            "typeVersion": 1,
+            "position": [
+                -752,
+                336
+            ],
+            "id": "02c00c56-8eca-4b9a-938b-472897cfab71",
+            "name": "GOOGLE DEEP RSS"
+        },
+        {
+            "parameters": {
+                "pollTimes": {
+                    "item": [
+                        {
+                            "hour": 23,
+                            "minute": 30
+                        },
+                        {
+                            "hour": 5,
+                            "minute": 30
+                        }
+                    ]
+                },
+                "feedUrl": "https://techcrunch.com/category/artificial-intelligence/feed/"
+            },
+            "type": "n8n-nodes-base.rssFeedReadTrigger",
+            "typeVersion": 1,
+            "position": [
+                -752,
+                528
+            ],
+            "id": "25693c24-abb8-492f-975d-f967507ffec2",
+            "name": "TECH CRUNSH RSS"
+        },
+        {
+            "parameters": {
+                "mode": "runOnceForEachItem",
+                "jsCode": "function simpleHash(str) {\n  let hash = 0;\n  if (str.length === 0) return hash.toString();\n\n  for (let i = 0; i < str.length; i++) {\n    const chr = str.charCodeAt(i);\n    hash = ((hash << 5) - hash) + chr;\n    hash |= 0; // Convert to 32bit integer\n  }\n  return hash.toString();\n}\n\nconst title = $json.title || '';\nconst link = $json.link || '';\nconst content = $json.content || '';\n\nconst post_hash = simpleHash(title + link + content);\n\nreturn {\n  ...$json,\n  post_hash\n};\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                80,
+                176
+            ],
+            "id": "586fb92d-794d-4f28-b811-216ebf7700fc",
+            "name": "Code in JavaScript"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.limit",
+            "typeVersion": 1,
+            "position": [
+                1200,
+                192
+            ],
+            "id": "b08cc2ff-bcdd-4f8c-9fcc-e302f4248917",
+            "name": "Limit"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Get the string of keys from your \"API KEY MANAGR\" node\nconst keysString = $node[\"API KEY MANAGR\"].json.all_keys;\nconst keys = keysString.split(',');\n\n// Rotate based on the current minute so the load is shared\nconst index = new Date().getMinutes() % keys.length; \n\nreturn {\n  selected_key: keys[index]\n};"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                2096,
+                192
+            ],
+            "id": "8f9f601c-4c0d-45bf-b5be-4f9a5ea2c5a7",
+            "name": "ROTATE KEY NODE"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "7292de3f-08c8-4f8d-b607-de0820dcbb4a",
+                            "name": "all_keys",
+                            "value": "YOUR_GROQ_API_KEY_1,YOUR_GROQ_API_KEY_2,YOUR_GROQ_API_KEY_3",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                1872,
+                192
+            ],
+            "id": "ad381b1e-eaea-48a2-a4a2-44489986ddd0",
+            "name": "API KEY MANAGR"
+        },
+        {
+            "parameters": {
+                "jsCode": "const staticData = $getWorkflowStaticData('global');\nstaticData.alreadyPosted = staticData.alreadyPosted || [];\n\nconst items = $input.all();\n\n// Filter by LINK because links are unique and titles can change\nconst uniqueItems = items.filter(item => {\n    return !staticData.alreadyPosted.includes(item.json.link);\n});\n\n// Add the new link to local memory\nuniqueItems.forEach(item => {\n    staticData.alreadyPosted.push(item.json.link);\n});\n\n// Save only the last 500 links to keep your local database fast\nif (staticData.alreadyPosted.length > 500) {\n    staticData.alreadyPosted = staticData.alreadyPosted.slice(-500);\n}\n\nreturn uniqueItems;"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                1424,
+                192
+            ],
+            "id": "b189b022-6483-47ce-8fa0-a6497296e9b9",
+            "name": "REMOVE LAST USED"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.limit",
+            "typeVersion": 1,
+            "position": [
+                1648,
+                192
+            ],
+            "id": "614dc8e7-3ed3-4c63-ac15-a269c5d35721",
+            "name": "Limit1"
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "value": "YOUR_GOOGLE_SHEETS_DOC_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "name"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "hash": "={{ $node[\"Code in JavaScript\"].json[\"post_hash\"] }}"
+                    },
+                    "matchingColumns": [
+                        "hash"
+                    ],
+                    "schema": [
+                        {
+                            "id": "hash",
+                            "displayName": "hash",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true,
+                            "removed": false
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.7,
+            "position": [
+                3168,
+                608
+            ],
+            "id": "49443536-5ea0-407b-9966-ef33df4e61a3",
+            "name": "Append row in sheet",
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "mode": "combine",
+                "advanced": true,
+                "mergeByFields": {
+                    "values": [
+                        {
+                            "field1": "post_hash",
+                            "field2": "hash"
+                        }
+                    ]
+                },
+                "joinMode": "keepNonMatches",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 3.2,
+            "position": [
+                864,
+                192
+            ],
+            "id": "6d007655-fc28-47f9-a393-9531da8ddaee",
+            "name": "Merge1"
+        },
+        {
+            "parameters": {
+                "documentId": {
+                    "__rl": true,
+                    "value": "YOUR_GOOGLE_SHEETS_DOC_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "name"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.7,
+            "position": [
+                480,
+                320
+            ],
+            "id": "cfe5a610-6a53-402c-b1b3-e29d8c930dce",
+            "name": "Get row(s) in sheet",
+            "alwaysOutputData": false,
+            "executeOnce": true,
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets account"
+                }
+            }
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Groq Chat Model": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "KEYWORD",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Groq Chat Model1": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "SEO TITLE",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "KEYWORD": {
+            "main": [
+                [
+                    {
+                        "node": "SEO TITLE",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "SEO TITLE": {
+            "main": [
+                [
+                    {
+                        "node": "BLOG GENERATION",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Groq Chat Model2": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "BLOG GENERATION",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "BLOG GENERATION": {
+            "main": [
+                [
+                    {
+                        "node": "META DESCRIPTION",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "IMAGE GENERATION": {
+            "main": [
+                [
+                    {
+                        "node": "IMAGE CONVERTING TO URL",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "IMAGE CONVERTING TO URL": {
+            "main": [
+                [
+                    {
+                        "node": "POSTING TO BLOGGER",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "META DESCRIPTION": {
+            "main": [
+                [
+                    {
+                        "node": "IMAGE GENERATION",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Groq Chat Model3": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "META DESCRIPTION",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "POSTING TO BLOGGER": {
+            "main": [
+                [
+                    {
+                        "node": "Append row in sheet",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                []
+            ]
+        },
+        "Merge": {
+            "main": [
+                [
+                    {
+                        "node": "Code in JavaScript",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "RSS Feed Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OPEN AI RSS": {
+            "main": [
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "GOOGLE DEEP RSS": {
+            "main": [
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 2
+                    }
+                ]
+            ]
+        },
+        "TECH CRUNSH RSS": {
+            "main": [
+                [
+                    {
+                        "node": "Merge",
+                        "type": "main",
+                        "index": 3
+                    }
+                ]
+            ]
+        },
+        "Code in JavaScript": {
+            "main": [
+                [
+                    {
+                        "node": "Merge1",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Get row(s) in sheet",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Limit": {
+            "main": [
+                [
+                    {
+                        "node": "REMOVE LAST USED",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "ROTATE KEY NODE": {
+            "main": [
+                [
+                    {
+                        "node": "KEYWORD",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "API KEY MANAGR": {
+            "main": [
+                [
+                    {
+                        "node": "ROTATE KEY NODE",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "REMOVE LAST USED": {
+            "main": [
+                [
+                    {
+                        "node": "Limit1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Limit1": {
+            "main": [
+                [
+                    {
+                        "node": "API KEY MANAGR",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Append row in sheet": {
+            "main": [
+                []
+            ]
+        },
+        "Merge1": {
+            "main": [
+                [
+                    {
+                        "node": "Limit",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get row(s) in sheet": {
+            "main": [
+                [
+                    {
+                        "node": "Merge1",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        }
+    },
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "timeSavedMode": "fixed",
+        "timezone": "Asia/Kolkata",
+        "callerPolicy": "workflowsFromSameOwner",
+        "availableInMCP": false
+    },
+    "versionId": "7822bdfb-1573-4e7a-93ea-d327197eb56a",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "YOUR_INSTANCE_ID"
+    },
+    "id": "8AlEgD1PNMmmics9",
+    "tags": []
+}
